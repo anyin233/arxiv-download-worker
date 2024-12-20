@@ -1,9 +1,16 @@
 {
-  "main": "worker.js",
-  "name": "arxiv-downloader",
-  "version": "1.0.0",
-  "description": "A simple Cloudflare Worker to download arXiv papers",
+  "name": "my-first-worker",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "test": "vitest"
+  },
   "devDependencies": {
-    "wrangler": "^3.99.0"
+    "@cloudflare/vitest-pool-workers": "^0.5.2",
+    "wrangler": "^3.60.3",
+    "vitest": "2.1.8"
   }
 }
