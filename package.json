@@ -1,0 +1,9 @@
+{
+  "main": "worker.js",
+  "name": "arxiv-downloader",
+  "version": "1.0.0",
+  "description": "A simple Cloudflare Worker to download arXiv papers",
+  "devDependencies": {
+    "wrangler": "^3.99.0"
+  }
+}
