@@ -1,6 +1,6 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "arxiv-downloader"
-main = "src/worker.js"
+main = "src/index.js"
 compatibility_date = "2024-01-09"
 compatibility_flags = ["nodejs_compat"]
 
