@@ -37,7 +37,7 @@ async function handleRequest(request) {
     return new Response(response.body, {
       headers: {
       'Content-Type': contentType,
-      'Content-Disposition': `attachment; filename="${filename}"`
+      'Content-Disposition': `attachment; filename=${filename}`
       },
     })
   } catch (error) {
