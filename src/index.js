@@ -1,5 +1,4 @@
 const base_url = "https://arxiv.org/"
-const compressing = require('compressing');
 
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
