@@ -22,7 +22,7 @@ async function processSingleFile(pathname) {
     throw new Error('Failed to fetch file');
   }
 
-  const contentType = type === 'pdf' ? 'application/pdf' : 'application/x-tex';
+  const contentType = type === 'pdf' ? 'application/pdf' : response.headers.get('Content-Type');
   return new Response(response.body, {
     headers: {
       'Content-Type': contentType,
@@ -39,17 +39,22 @@ async function processAllFile(pathname) {
   }
 
   const pdfUrl = base_url + "pdf/" + id;
-  const texUrl = base_url + "src/" + id;
+  const srcUrl = base_url + "src/" + id;
 
   const pdfResponse = await fetch(pdfUrl);
-  const texResponse = await fetch(texUrl);
-  if (!pdfResponse.ok || !texResponse.ok) {
+  const srcResponse = await fetch(srcUrl);
+  
+  if (!pdfResponse.ok || !srcResponse.ok) {
     throw new Error('Failed to fetch files');
   }
 
   const zip = new JSZip();
-  zip.file(`${id}.pdf`, await pdfResponse.blob());
-  zip.file(`${id}.tex`, await texResponse.blob());
+  const pdfBuffer = await pdfResponse.arrayBuffer();
+  const srcBuffer = await srcResponse.arrayBuffer();
+  
+  zip.file(`${id}.pdf`, pdfBuffer, {binary: true});
+  const filename = srcResponse.headers.get('Content-Disposition')?.match(/filename="(.+)"/)?.[1] || 'source.tar.gz';
+  zip.file(filename, srcBuffer, {binary: true});
 
   const zipBlob = await zip.generateAsync({type: 'blob'});
 
@@ -93,3 +98,9 @@ async function handleRequest(request) {
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request));
 });
+
+export default {
+  fetch(request) {
+    return handleRequest(request);
+  }
+}
